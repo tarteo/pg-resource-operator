@@ -1,0 +1,27 @@
+apiVersion: pg.onestein.nl/v1
+kind: Database
+metadata:
+  labels:
+    app.kubernetes.io/name: pg-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: database-sample
+spec:
+  postgresRef:
+    name: postgres-sample
+  name: database-sample
+  # encoding: UTF8
+  # template: template1
+  owner: role-sample
+  privileges:
+    - role: postgres
+      connect: true
+      create: true
+      temporary: true
+    - role: role-sample
+      connect: true
+      create: false  # Cannot create new schemas
+      temporary: true
+    - role: public  # All other roles
+      connect: false
+      create: false
+      temporary: false

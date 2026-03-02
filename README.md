@@ -1,0 +1,136 @@
+# pg-resource-operator
+
+Kubernetes operator for managing PostgreSQL resources with Custom Resource Definitions (CRDs). It reconciles `Database` and `Role` resources.
+
+## Features
+
+- Declarative management of PostgreSQL databases and roles
+- Finalizers to ensure clean deletion
+
+## Prerequisites
+
+- Kubernetes cluster
+- PostgreSQL deployment reachable from the operator
+- helm (for installation via Helm)
+
+**NB.:** The operator is tested with **PostgreSQL 13**, but should probably work with other versions as well.
+
+## Install via Helm
+
+The Helm chart lives in [helm/chart](helm/chart).
+
+1. Install CRDs and controller:
+
+```bash
+helm install pg-resource-operator ./helm/chart \
+	--namespace pg-resource-operator \
+	--create-namespace
+```
+
+or using the released version:
+
+```bash
+helm repo add pg-resource-operator https://tarteo.github.io/pg-resource-operator
+helm install pg-resource-operator pg-resource-operator/pg-resource-operator \
+    --namespace pg-resource-operator \
+    --create-namespace
+```
+
+and to uninstall:
+
+```bash
+helm uninstall pg-resource-operator --namespace pg-resource-operator
+```
+
+## Using the CRDs
+
+The operator manages these CRDs:
+
+- `Postgres` — stores PostgreSQL connection information
+- `Database` — manages PostgreSQL databases
+- `Role` — manages PostgreSQL roles
+
+### Create a Postgres resource
+
+```yaml
+apiVersion: pg.onestein.nl/v1
+kind: Postgres
+metadata:
+  name: postgres-sample
+spec:
+  secret:
+    name: postgres-secret
+  hostKey: host
+  portKey: port
+  usernameKey: username
+  passwordKey: password
+  defaultDatabase: postgres
+```
+
+### Create a Role
+
+```yaml
+apiVersion: pg.onestein.nl/v1
+kind: Role
+metadata:
+  name: role-sample
+spec:
+  postgresRef:
+    name: postgres-sample
+  name: role-sample
+  passwordSecret:
+    name: role-sample-secret
+  passwordKey: password
+```
+
+### Create a Database
+
+```yaml
+apiVersion: pg.onestein.nl/v1
+kind: Database
+metadata:
+  name: database-sample
+spec:
+  postgresRef:
+    name: postgres-sample
+  name: database-sample
+  encoding: UTF8
+  template: template1
+  owner: role-sample
+  privileges:
+    - role: postgres
+      connect: true
+      create: true
+      temporary: true
+    - role: role-sample
+      connect: true
+      create: false  # Cannot create new schemas
+      temporary: true
+    - role: public  # All other roles
+      connect: false
+      create: false
+      temporary: false
+
+```
+
+## Development
+
+### Generate CRDs and deepcopy
+
+```bash
+make manifests generate
+```
+
+### Build and run locally
+
+```bash
+make build
+make run
+```
+
+## Roadmap
+
+- Add more controllers for other PostgreSQL resources
+- Add e2e tests
+- Test more PostgreSQL versions
+- Delete policy for databases

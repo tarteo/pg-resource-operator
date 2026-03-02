@@ -1,0 +1,6 @@
+## Append samples of your project ##
+resources:
+- pg_v1_database.yaml
+- pg_v1_role.yaml
+- pg_v1_postgres.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples

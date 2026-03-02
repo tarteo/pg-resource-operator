@@ -1,0 +1,15 @@
+apiVersion: pg.onestein.nl/v1
+kind: Postgres
+metadata:
+  labels:
+    app.kubernetes.io/name: pg-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: postgres-sample
+spec:
+  secret:
+    name: postgres-secret
+  hostKey: host
+  portKey: port
+  usernameKey: username
+  passwordKey: password
+  defaultDatabase: postgres

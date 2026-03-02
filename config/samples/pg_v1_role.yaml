@@ -1,0 +1,14 @@
+apiVersion: pg.onestein.nl/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/name: pg-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: role-sample
+spec:
+  postgresRef:
+    name: postgres-sample
+  name: role-sample
+  passwordSecret:
+    name: role-sample-secret
+  passwordKey: password
