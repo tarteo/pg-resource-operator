@@ -129,6 +129,7 @@ func (r *DatabaseReconciler) ReconcileResource(ctx context.Context, database *pg
 	if err != nil {
 		return err
 	}
+	// nolint:errcheck
 	defer handler.Close()
 
 	// Check if database exists

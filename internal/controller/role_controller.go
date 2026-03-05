@@ -131,6 +131,7 @@ func (r *RoleReconciler) ReconcileResource(ctx context.Context, role *pgv1.Role)
 	if err != nil {
 		return err
 	}
+	// nolint:errcheck
 	defer handler.Close()
 
 	// Check if role exists

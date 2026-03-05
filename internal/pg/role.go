@@ -13,6 +13,7 @@ func RoleExists(handler *sql.DB, roleName string) (bool, error) {
 		return false, err
 	}
 	// Ensure rows are closed after processing
+	// nolint:errcheck
 	defer rows.Close()
 
 	if rows.Next() {

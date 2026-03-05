@@ -21,7 +21,7 @@ func (p Privilege) String() string {
 }
 
 func JoinPrivileges(privileges []Privilege) string {
-	var privilegeStrings []string
+	privilegeStrings := make([]string, 0, len(privileges))
 	for _, priv := range privileges {
 		privilegeStrings = append(privilegeStrings, priv.String())
 	}
