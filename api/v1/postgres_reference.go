@@ -62,17 +62,30 @@ func (r *PostgresReference) GetConnectionURI(ctx context.Context, c client.Clien
 	}
 
 	// Get secret data for constructing the URI
-	host, ok := secret.Data[postgres.Spec.HostKey]
-	if !ok {
-		return "", fmt.Errorf("host key not found in secret: %s", postgres.Spec.HostKey)
+	// First check if host and port are specified directly in the Postgres spec, if not, look them up in the secret using the specified keys
+	var hostString string = postgres.Spec.Host
+	if hostString == "" {
+		host, ok := secret.Data[postgres.Spec.HostKey]
+		if !ok {
+			return "", fmt.Errorf("host key not found in secret: %s", postgres.Spec.HostKey)
+		}
+		hostString = string(host)
 	}
-	port, ok := secret.Data[postgres.Spec.PortKey]
-	if !ok {
-		return "", fmt.Errorf("port key not found in secret: %s", postgres.Spec.PortKey)
+	var portString string = postgres.Spec.Port
+	if portString == "" {
+		port, ok := secret.Data[postgres.Spec.PortKey]
+		if !ok {
+			return "", fmt.Errorf("port key not found in secret: %s", postgres.Spec.PortKey)
+		}
+		portString = string(port)
 	}
-	username, ok := secret.Data[postgres.Spec.UsernameKey]
-	if !ok {
-		return "", fmt.Errorf("username key not found in secret: %s", postgres.Spec.UsernameKey)
+	var usernameString string = postgres.Spec.Username
+	if usernameString == "" {
+		username, ok := secret.Data[postgres.Spec.UsernameKey]
+		if !ok {
+			return "", fmt.Errorf("username key not found in secret: %s", postgres.Spec.UsernameKey)
+		}
+		usernameString = string(username)
 	}
 	password, ok := secret.Data[postgres.Spec.PasswordKey]
 	if !ok {
@@ -82,7 +95,7 @@ func (r *PostgresReference) GetConnectionURI(ctx context.Context, c client.Clien
 
 	// Construct the URI
 	sslMode := postgres.Spec.SSLMode
-	uri := "postgres://" + string(username) + ":" + string(password) + "@" + string(host) + ":" + string(port) + "/" + database + "?sslmode=" + sslMode
+	uri := "postgres://" + usernameString + ":" + string(password) + "@" + hostString + ":" + portString + "/" + database + "?sslmode=" + sslMode
 	return uri, nil
 }
 

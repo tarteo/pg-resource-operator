@@ -30,18 +30,18 @@ type PostgresSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	Secret corev1.SecretReference `json:"secret,omitempty"`
-
 	// +kubebuilder:default:="host"
 	HostKey string `json:"hostKey,omitempty"`
-
 	// +kubebuilder:default:="port"
 	PortKey string `json:"portKey,omitempty"`
-
 	// +kubebuilder:default:="username"
 	UsernameKey string `json:"usernameKey,omitempty"`
-
 	// +kubebuilder:default:="password"
 	PasswordKey string `json:"passwordKey,omitempty"`
+
+	Host     string `json:"host,omitempty"`
+	Port     string `json:"port,omitempty"`
+	Username string `json:"username,omitempty"`
 
 	// +kubebuilder:default:="postgres"
 	DefaultDatabase string `json:"defaultDatabase,omitempty"`
