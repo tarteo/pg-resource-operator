@@ -2,8 +2,18 @@ apiVersion: v1
 entries:
   pg-resource-operator:
   - apiVersion: v2
+    appVersion: v1.1.0
+    created: "2026-03-10T13:48:08.887436716Z"
+    description: Kubernetes Operator for PostgreSQL resources
+    digest: f6b391b391207ed52500ecd4b6308b185d9ddbce50c9d758b86cd9b2c237541a
+    name: pg-resource-operator
+    type: application
+    urls:
+    - https://tarteo.github.io/pg-resource-operator/pg-resource-operator-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     appVersion: v1.0.0
-    created: "2026-03-05T14:00:45.4756436Z"
+    created: "2026-03-10T13:48:08.887019374Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 0e2026edc78436cb177167f72d46a41b412349792a15326a721260de02f17ba7
     name: pg-resource-operator
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://tarteo.github.io/pg-resource-operator/pg-resource-operator-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-05T14:00:45.475088059Z"
+generated: "2026-03-10T13:48:08.886417287Z"
