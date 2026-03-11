@@ -40,7 +40,7 @@ type PostgresSpec struct {
 	PasswordKey string `json:"passwordKey,omitempty"`
 
 	Host     string `json:"host,omitempty"`
-	Port     string `json:"port,omitempty"`
+	Port     int32  `json:"port,omitempty"`
 	Username string `json:"username,omitempty"`
 
 	// +kubebuilder:default:="postgres"

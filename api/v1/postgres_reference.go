@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strconv"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -71,7 +72,7 @@ func (r *PostgresReference) GetConnectionURI(ctx context.Context, c client.Clien
 		}
 		hostString = string(host)
 	}
-	var portString string = postgres.Spec.Port
+	var portString string = strconv.Itoa(int(postgres.Spec.Port))
 	if portString == "" {
 		port, ok := secret.Data[postgres.Spec.PortKey]
 		if !ok {
