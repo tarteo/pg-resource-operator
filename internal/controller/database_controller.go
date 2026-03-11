@@ -18,7 +18,9 @@ package controller
 
 import (
 	"context"
+	"fmt"
 
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -172,6 +174,11 @@ func (r *DatabaseReconciler) ReconcileResource(ctx context.Context, database *pg
 
 	// Grant / revoke privileges
 	for _, privilege := range database.Spec.Privileges {
+		role, err := r.resolvePrivilegeRole(ctx, database, privilege)
+		if err != nil {
+			return err
+		}
+
 		var granted []pg.Privilege
 		var revoked []pg.Privilege
 		if privilege.Connect {
@@ -191,19 +198,41 @@ func (r *DatabaseReconciler) ReconcileResource(ctx context.Context, database *pg
 		}
 
 		// Grant privileges
-		if err := pg.GrantPrivileges(handler, database.Spec.Name, granted, privilege.Role); err != nil {
+		if err := pg.GrantPrivileges(handler, database.Spec.Name, granted, role); err != nil {
 			log.Error(err, "unable to grant privileges")
 			return err
 		}
 
 		// Revoke privileges
-		if err := pg.RevokePrivileges(handler, database.Spec.Name, revoked, privilege.Role); err != nil {
+		if err := pg.RevokePrivileges(handler, database.Spec.Name, revoked, role); err != nil {
 			log.Error(err, "unable to revoke privileges")
 			return err
 		}
 	}
 
 	return nil
+}
+
+func (r *DatabaseReconciler) resolvePrivilegeRole(ctx context.Context, database *pgv1.Database, privilege pgv1.DatabasePrivilege) (string, error) {
+	if privilege.Role.Name != "" {
+		return privilege.Role.Name, nil
+	}
+
+	var secret corev1.Secret
+	if err := r.Get(ctx, types.NamespacedName{Namespace: database.Namespace, Name: privilege.Role.SecretKeyRef.Name}, &secret); err != nil {
+		return "", err
+	}
+
+	role, found := secret.Data[privilege.Role.SecretKeyRef.Key]
+	if !found {
+		return "", fmt.Errorf("unable to find key %q in secret %q", privilege.Role.SecretKeyRef.Key, privilege.Role.SecretKeyRef.Name)
+	}
+
+	if len(role) == 0 {
+		return "", fmt.Errorf("role value in secret %q key %q is empty", privilege.Role.SecretKeyRef.Name, privilege.Role.SecretKeyRef.Key)
+	}
+
+	return string(role), nil
 }
 
 // SetupWithManager sets up the controller with the Manager.

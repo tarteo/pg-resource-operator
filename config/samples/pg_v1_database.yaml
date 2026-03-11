@@ -13,15 +13,20 @@ spec:
   # template: template1
   owner: role-sample
   privileges:
-    - role: postgres
+    - role:
+        name: postgres
       connect: true
       create: true
       temporary: true
-    - role: role-sample
+    - role:
+        secretKeyRef:
+          name: role-sample
+          key: role
       connect: true
       create: false  # Cannot create new schemas
       temporary: true
-    - role: public  # All other roles
+    - role: # All other roles
+        name: public
       connect: false
       create: false
       temporary: false

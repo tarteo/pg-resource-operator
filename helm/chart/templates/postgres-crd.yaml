@@ -43,12 +43,17 @@ spec:
               defaultDatabase:
                 default: postgres
                 type: string
+              host:
+                type: string
               hostKey:
                 default: host
                 type: string
               passwordKey:
                 default: password
                 type: string
+              port:
+                format: int32
+                type: integer
               portKey:
                 default: port
                 type: string
@@ -77,6 +82,8 @@ spec:
                 type: string
               uriKey:
                 default: uri
+                type: string
+              username:
                 type: string
               usernameKey:
                 default: username
