@@ -35,8 +35,8 @@ import (
 	"github.com/tarteo/pg-resource-operator/internal/pg"
 )
 
-// DatabaseReconciler reconciles a Database object
-type DatabaseReconciler struct {
+// PostgresDatabaseReconciler reconciles a PostgresDatabase object
+type PostgresDatabaseReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
@@ -50,17 +50,17 @@ type DatabaseReconciler struct {
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
-// the Database object against the actual cluster state, and then
+// the PostgresDatabase object against the actual cluster state, and then
 // perform operations to make the cluster state reflect the state specified by
 // the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.19.1/pkg/reconcile
-func (r *DatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (r *PostgresDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := log.FromContext(ctx).WithValues("namespace", req.NamespacedName)
 	log.Info("reconciling database")
 
-	var database pgv1.Database
+	var database pgv1.PostgresDatabase
 	if err := r.Get(ctx, req.NamespacedName, &database); err != nil {
 		if errors.IsNotFound(err) {
 			return ctrl.Result{}, nil
@@ -124,7 +124,7 @@ func (r *DatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	return ctrl.Result{}, nil
 }
 
-func (r *DatabaseReconciler) ReconcileResource(ctx context.Context, database *pgv1.Database) error {
+func (r *PostgresDatabaseReconciler) ReconcileResource(ctx context.Context, database *pgv1.PostgresDatabase) error {
 	log := log.FromContext(ctx).WithValues("namespace", types.NamespacedName{Namespace: database.Namespace, Name: database.Name})
 
 	handler, err := database.Spec.PostgresRef.GetPostgresHandle(ctx, r.Client, database.Namespace)
@@ -213,7 +213,7 @@ func (r *DatabaseReconciler) ReconcileResource(ctx context.Context, database *pg
 	return nil
 }
 
-func (r *DatabaseReconciler) resolvePrivilegeRole(ctx context.Context, database *pgv1.Database, privilege pgv1.DatabasePrivilege) (string, error) {
+func (r *PostgresDatabaseReconciler) resolvePrivilegeRole(ctx context.Context, database *pgv1.PostgresDatabase, privilege pgv1.DatabasePrivilege) (string, error) {
 	if privilege.Role.Name != "" {
 		return privilege.Role.Name, nil
 	}
@@ -236,14 +236,14 @@ func (r *DatabaseReconciler) resolvePrivilegeRole(ctx context.Context, database 
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *DatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *PostgresDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&pgv1.Database{}).
+		For(&pgv1.PostgresDatabase{}).
 		Named("database").
 		Complete(r)
 }
 
-func (r *DatabaseReconciler) setProgressing(ctx context.Context, database *pgv1.Database, message string) (bool, error) {
+func (r *PostgresDatabaseReconciler) setProgressing(ctx context.Context, database *pgv1.PostgresDatabase, message string) (bool, error) {
 	changed := helpers.SetConditionStatus(&database.Status.Conditions, constants.ConditionProgressing, "Reconciling", message, database.Generation)
 	if !changed {
 		return changed, nil
@@ -252,7 +252,7 @@ func (r *DatabaseReconciler) setProgressing(ctx context.Context, database *pgv1.
 	return changed, r.Status().Update(ctx, database)
 }
 
-func (r *DatabaseReconciler) setReady(ctx context.Context, database *pgv1.Database, message string) (bool, error) {
+func (r *PostgresDatabaseReconciler) setReady(ctx context.Context, database *pgv1.PostgresDatabase, message string) (bool, error) {
 	changed := helpers.SetConditionStatus(&database.Status.Conditions, constants.ConditionReady, "Reconciled", message, database.Generation)
 	if !changed {
 		return changed, nil
@@ -261,7 +261,7 @@ func (r *DatabaseReconciler) setReady(ctx context.Context, database *pgv1.Databa
 	return changed, r.Status().Update(ctx, database)
 }
 
-func (r *DatabaseReconciler) setDegraded(ctx context.Context, database *pgv1.Database, message string) (bool, error) {
+func (r *PostgresDatabaseReconciler) setDegraded(ctx context.Context, database *pgv1.PostgresDatabase, message string) (bool, error) {
 	changed := helpers.SetConditionStatus(&database.Status.Conditions, constants.ConditionDegraded, "ReconcileFailed", message, database.Generation)
 	if !changed {
 		return changed, nil

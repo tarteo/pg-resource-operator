@@ -8,8 +8,8 @@ metadata:
 spec:
   group: pg.onestein.nl
   names:
-    kind: Role
-    listKind: RoleList
+    kind: PostgresRole
+    listKind: PostgresRoleList
     plural: postgresroles
     shortNames:
     - pgrole
@@ -19,7 +19,7 @@ spec:
   - name: v1
     schema:
       openAPIV3Schema:
-        description: Role is the Schema for the roles API.
+        description: PostgresRole is the Schema for the roles API.
         properties:
           apiVersion:
             description: |-
@@ -39,7 +39,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: RoleSpec defines the desired state of Role.
+            description: PostgresRoleSpec defines the desired state of PostgresRole.
             properties:
               name:
                 type: string
@@ -81,7 +81,7 @@ spec:
             - postgresRef
             type: object
           status:
-            description: RoleStatus defines the observed state of Role.
+            description: PostgresRoleStatus defines the observed state of PostgresRole.
             properties:
               conditions:
                 items:

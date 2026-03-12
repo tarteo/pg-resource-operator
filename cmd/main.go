@@ -142,18 +142,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controller.DatabaseReconciler{
+	if err = (&controller.PostgresDatabaseReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Database")
+		setupLog.Error(err, "unable to create controller", "controller", "PostgresDatabase")
 		os.Exit(1)
 	}
-	if err = (&controller.RoleReconciler{
+	if err = (&controller.PostgresRoleReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Role")
+		setupLog.Error(err, "unable to create controller", "controller", "PostgresRole")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

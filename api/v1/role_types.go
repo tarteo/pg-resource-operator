@@ -24,8 +24,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// RoleSpec defines the desired state of Role.
-type RoleSpec struct {
+// PostgresRoleSpec defines the desired state of PostgresRole.
+type PostgresRoleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	PostgresRef PostgresReference `json:"postgresRef"`
@@ -40,8 +40,8 @@ type RoleSpec struct {
 	PasswordKey string `json:"passwordKey,omitempty"`
 }
 
-// RoleStatus defines the observed state of Role.
-type RoleStatus struct {
+// PostgresRoleStatus defines the observed state of PostgresRole.
+type PostgresRoleStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
@@ -57,24 +57,24 @@ type RoleStatus struct {
 // +kubebuilder:resource:singular=postgresrole
 // +kubebuilder:resource:shortName=pgrole
 
-// Role is the Schema for the roles API.
-type Role struct {
+// PostgresRole is the Schema for the roles API.
+type PostgresRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   RoleSpec   `json:"spec,omitempty"`
-	Status RoleStatus `json:"status,omitempty"`
+	Spec   PostgresRoleSpec   `json:"spec,omitempty"`
+	Status PostgresRoleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// RoleList contains a list of Role.
-type RoleList struct {
+// PostgresRoleList contains a list of PostgresRole.
+type PostgresRoleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Role `json:"items"`
+	Items           []PostgresRole `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Role{}, &RoleList{})
+	SchemeBuilder.Register(&PostgresRole{}, &PostgresRoleList{})
 }

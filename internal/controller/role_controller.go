@@ -35,8 +35,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-// RoleReconciler reconciles a Role object
-type RoleReconciler struct {
+// PostgresRoleReconciler reconciles a PostgresRole object
+type PostgresRoleReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
@@ -50,17 +50,17 @@ type RoleReconciler struct {
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
-// the Role object against the actual cluster state, and then
+// the PostgresRole object against the actual cluster state, and then
 // perform operations to make the cluster state reflect the state specified by
 // the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.19.1/pkg/reconcile
-func (r *RoleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (r *PostgresRoleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := log.FromContext(ctx).WithValues("namespace", req.NamespacedName)
 	log.Info("reconciling role")
 
-	var role pgv1.Role
+	var role pgv1.PostgresRole
 	if err := r.Get(ctx, req.NamespacedName, &role); err != nil {
 		if errors.IsNotFound(err) {
 			return ctrl.Result{}, nil
@@ -124,7 +124,7 @@ func (r *RoleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 	return ctrl.Result{}, nil
 }
 
-func (r *RoleReconciler) ReconcileResource(ctx context.Context, role *pgv1.Role) error {
+func (r *PostgresRoleReconciler) ReconcileResource(ctx context.Context, role *pgv1.PostgresRole) error {
 	log := log.FromContext(ctx).WithValues("namespace", types.NamespacedName{Namespace: role.Namespace, Name: role.Name})
 
 	handler, err := role.Spec.PostgresRef.GetPostgresHandle(ctx, r.Client, role.Namespace)
@@ -185,7 +185,7 @@ func (r *RoleReconciler) ReconcileResource(ctx context.Context, role *pgv1.Role)
 	return nil
 }
 
-func (r *RoleReconciler) GetPassword(ctx context.Context, role *pgv1.Role) (*string, error) {
+func (r *PostgresRoleReconciler) GetPassword(ctx context.Context, role *pgv1.PostgresRole) (*string, error) {
 	// If no password secret is specified, return nil to indicate that the password should not be set or updated
 	if role.Spec.PasswordSecret == nil {
 		return nil, nil
@@ -212,14 +212,14 @@ func (r *RoleReconciler) GetPassword(ctx context.Context, role *pgv1.Role) (*str
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *RoleReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *PostgresRoleReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&pgv1.Role{}).
+		For(&pgv1.PostgresRole{}).
 		Named("role").
 		Complete(r)
 }
 
-func (r *RoleReconciler) setProgressing(ctx context.Context, role *pgv1.Role, message string) (bool, error) {
+func (r *PostgresRoleReconciler) setProgressing(ctx context.Context, role *pgv1.PostgresRole, message string) (bool, error) {
 	changed := helpers.SetConditionStatus(&role.Status.Conditions, constants.ConditionProgressing, "Reconciling", message, role.Generation)
 	if !changed {
 		return changed, nil
@@ -228,7 +228,7 @@ func (r *RoleReconciler) setProgressing(ctx context.Context, role *pgv1.Role, me
 	return changed, r.Status().Update(ctx, role)
 }
 
-func (r *RoleReconciler) setReady(ctx context.Context, role *pgv1.Role, message string) (bool, error) {
+func (r *PostgresRoleReconciler) setReady(ctx context.Context, role *pgv1.PostgresRole, message string) (bool, error) {
 	changed := helpers.SetConditionStatus(&role.Status.Conditions, constants.ConditionReady, "Reconciled", message, role.Generation)
 	if !changed {
 		return changed, nil
@@ -237,7 +237,7 @@ func (r *RoleReconciler) setReady(ctx context.Context, role *pgv1.Role, message 
 	return changed, r.Status().Update(ctx, role)
 }
 
-func (r *RoleReconciler) setDegraded(ctx context.Context, role *pgv1.Role, message string) (bool, error) {
+func (r *PostgresRoleReconciler) setDegraded(ctx context.Context, role *pgv1.PostgresRole, message string) (bool, error) {
 	changed := helpers.SetConditionStatus(&role.Status.Conditions, constants.ConditionDegraded, "ReconcileFailed", message, role.Generation)
 	if !changed {
 		return changed, nil

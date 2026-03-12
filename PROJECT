@@ -14,7 +14,7 @@ resources:
   controller: true
   domain: onestein.nl
   group: pg
-  kind: Database
+  kind: PostgresDatabase
   path: github.com/tarteo/pg-resource-operator/api/v1
   version: v1
 - api:
@@ -23,7 +23,7 @@ resources:
   controller: true
   domain: onestein.nl
   group: pg
-  kind: Role
+  kind: PostgresRole
   path: github.com/tarteo/pg-resource-operator/api/v1
   version: v1
 - api:

@@ -23,8 +23,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// DatabaseSpec defines the desired state of Database.
-type DatabaseSpec struct {
+// PostgresDatabaseSpec defines the desired state of PostgresDatabase.
+type PostgresDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
@@ -42,8 +42,8 @@ type DatabaseSpec struct {
 	Privileges []DatabasePrivilege `json:"privileges"`
 }
 
-// DatabaseStatus defines the observed state of Database.
-type DatabaseStatus struct {
+// PostgresDatabaseStatus defines the observed state of PostgresDatabase.
+type PostgresDatabaseStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
@@ -59,24 +59,24 @@ type DatabaseStatus struct {
 // +kubebuilder:resource:singular=postgresdatabase
 // +kubebuilder:resource:shortName=pgdb
 
-// Database is the Schema for the databases API.
-type Database struct {
+// PostgresDatabase is the Schema for the databases API.
+type PostgresDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   DatabaseSpec   `json:"spec,omitempty"`
-	Status DatabaseStatus `json:"status,omitempty"`
+	Spec   PostgresDatabaseSpec   `json:"spec,omitempty"`
+	Status PostgresDatabaseStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// DatabaseList contains a list of Database.
-type DatabaseList struct {
+// PostgresDatabaseList contains a list of PostgresDatabase.
+type PostgresDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Database `json:"items"`
+	Items           []PostgresDatabase `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Database{}, &DatabaseList{})
+	SchemeBuilder.Register(&PostgresDatabase{}, &PostgresDatabaseList{})
 }

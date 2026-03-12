@@ -1,5 +1,5 @@
 apiVersion: pg.onestein.nl/v1
-kind: Database
+kind: PostgresDatabase
 metadata:
   labels:
     app.kubernetes.io/name: pg-resource-operator

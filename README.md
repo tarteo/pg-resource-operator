@@ -1,6 +1,6 @@
 # pg-resource-operator
 
-Kubernetes operator for managing PostgreSQL resources with Custom Resource Definitions (CRDs). It reconciles `Database` and `Role` resources.
+Kubernetes operator for managing PostgreSQL resources with Custom Resource Definitions (CRDs). It reconciles `PostgresDatabase` and `PostgresRole` resources.
 
 ## Features
 
@@ -47,8 +47,8 @@ helm uninstall pg-resource-operator --namespace pg-resource-operator
 The operator manages these CRDs:
 
 - `Postgres` — stores PostgreSQL connection information
-- `Database` — manages PostgreSQL databases
-- `Role` — manages PostgreSQL roles
+- `PostgresDatabase` — manages PostgreSQL databases
+- `PostgresRole` — manages PostgreSQL roles
 
 ### Create a Postgres resource
 
@@ -67,11 +67,11 @@ spec:
   defaultDatabase: postgres
 ```
 
-### Create a Role
+### Create a PostgresRole
 
 ```yaml
 apiVersion: pg.onestein.nl/v1
-kind: Role
+kind: PostgresRole
 metadata:
   name: role-sample
 spec:
@@ -83,11 +83,11 @@ spec:
   passwordKey: password
 ```
 
-### Create a Database
+### Create a PostgresDatabase
 
 ```yaml
 apiVersion: pg.onestein.nl/v1
-kind: Database
+kind: PostgresDatabase
 metadata:
   name: database-sample
 spec:
