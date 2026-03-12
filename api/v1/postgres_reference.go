@@ -99,16 +99,16 @@ func (r *PostgresReference) GetConnectionURI(ctx context.Context, c client.Clien
 	sslMode := postgres.Spec.SSLMode
 
 	// Construct the URI
+	uriQuery := url.Values{}
+	uriQuery.Set("sslmode", sslMode)
 	uri := &url.URL{
-		Scheme: "postgres",
-		User:   url.UserPassword(usernameString, passwordString),
-		Host:   hostString + ":" + portString,
-		Path:   database,
+		Scheme:   "postgres",
+		User:     url.UserPassword(usernameString, passwordString),
+		Host:     hostString + ":" + portString,
+		Path:     database,
+		RawQuery: uriQuery.Encode(),
 	}
 
-	uriQuery := uri.Query()
-	uriQuery.Set("sslmode", sslMode)
-	uri.RawQuery = uriQuery.Encode()
 	return uri.String(), nil
 }
 
