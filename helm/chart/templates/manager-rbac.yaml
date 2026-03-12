@@ -16,8 +16,16 @@ rules:
 - apiGroups:
   - pg.onestein.nl
   resources:
-  - databases
-  - roles
+  - postgres
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - pg.onestein.nl
+  resources:
+  - postgresdatabases
+  - postgresroles
   verbs:
   - create
   - delete
@@ -29,27 +37,19 @@ rules:
 - apiGroups:
   - pg.onestein.nl
   resources:
-  - databases/finalizers
-  - roles/finalizers
+  - postgresdatabases/finalizers
+  - postgresroles/finalizers
   verbs:
   - update
 - apiGroups:
   - pg.onestein.nl
   resources:
-  - databases/status
-  - roles/status
+  - postgresdatabases/status
+  - postgresroles/status
   verbs:
   - get
   - patch
   - update
-- apiGroups:
-  - pg.onestein.nl
-  resources:
-  - postgres
-  verbs:
-  - get
-  - list
-  - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

@@ -42,9 +42,9 @@ type RoleReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgres,verbs=get;list;watch
-// +kubebuilder:rbac:groups=pg.onestein.nl,resources=roles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=pg.onestein.nl,resources=roles/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=pg.onestein.nl,resources=roles/finalizers,verbs=update
+// +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgresroles,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgresroles/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgresroles/finalizers,verbs=update
 // +kubebuilder:rbac:groups="",resources=secrets,verbs=get;list;watch
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to

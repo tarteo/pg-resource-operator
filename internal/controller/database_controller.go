@@ -42,9 +42,9 @@ type DatabaseReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgres,verbs=get;list;watch
-// +kubebuilder:rbac:groups=pg.onestein.nl,resources=databases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=pg.onestein.nl,resources=databases/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=pg.onestein.nl,resources=databases/finalizers,verbs=update
+// +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgresdatabases,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgresdatabases/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=pg.onestein.nl,resources=postgresdatabases/finalizers,verbs=update
 // +kubebuilder:rbac:groups="",resources=secrets,verbs=get;list;watch
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to

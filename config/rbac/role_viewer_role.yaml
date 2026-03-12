@@ -10,7 +10,7 @@ rules:
 - apiGroups:
   - pg.onestein.nl
   resources:
-  - roles
+  - postgresroles
   verbs:
   - get
   - list
@@ -18,6 +18,6 @@ rules:
 - apiGroups:
   - pg.onestein.nl
   resources:
-  - roles/status
+  - postgresroles/status
   verbs:
   - get

@@ -10,7 +10,7 @@ rules:
 - apiGroups:
   - pg.onestein.nl
   resources:
-  - databases
+  - postgresdatabases
   verbs:
   - create
   - delete
@@ -22,6 +22,6 @@ rules:
 - apiGroups:
   - pg.onestein.nl
   resources:
-  - databases/status
+  - postgresdatabases/status
   verbs:
   - get
