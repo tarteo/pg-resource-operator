@@ -10,8 +10,7 @@ controllerManager:
         drop:
         - ALL
     image:
-      repository: controller
-      tag: latest
+      repository: ghcr.io/tarteo/pg-resource-operator
     resources:
       limits:
         cpu: 500m
