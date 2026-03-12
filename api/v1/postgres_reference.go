@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strconv"
+	"strings"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -92,11 +93,13 @@ func (r *PostgresReference) GetConnectionURI(ctx context.Context, c client.Clien
 	if !ok {
 		return "", fmt.Errorf("password key not found in secret: %s", postgres.Spec.PasswordKey)
 	}
+	passwordString := string(password)
+	passwordString = strings.Replace(passwordString, `\`, `\\`, -1)
 	database := postgres.Spec.DefaultDatabase
 
 	// Construct the URI
 	sslMode := postgres.Spec.SSLMode
-	uri := "postgres://" + usernameString + ":" + string(password) + "@" + hostString + ":" + portString + "/" + database + "?sslmode=" + sslMode
+	uri := "postgres://" + usernameString + ":" + passwordString + "@" + hostString + ":" + portString + "/" + database + "?sslmode=" + sslMode
 	return uri, nil
 }
 
