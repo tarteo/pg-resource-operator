@@ -78,6 +78,8 @@ spec:
   postgresRef:
     name: postgres-sample
   name: role-sample
+  attributes:
+    - CREATEDB  
   passwordSecret:
     name: role-sample-secret
   passwordKey: password

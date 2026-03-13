@@ -42,6 +42,23 @@ spec:
           spec:
             description: PostgresRoleSpec defines the desired state of PostgresRole.
             properties:
+              attributes:
+                items:
+                  enum:
+                  - SUPERUSER
+                  - CREATEDB
+                  - CREATEROLE
+                  - INHERIT
+                  - REPLICATION
+                  - BYPASSRLS
+                  - NOSUPERUSER
+                  - NOCREATEDB
+                  - NOCREATEROLE
+                  - NOINHERIT
+                  - NOREPLICATION
+                  - NOBYPASSRLS
+                  type: string
+                type: array
               name:
                 type: string
                 x-kubernetes-validations:

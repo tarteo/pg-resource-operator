@@ -24,6 +24,39 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// +kubebuilder:validation:Enum=SUPERUSER;CREATEDB;CREATEROLE;INHERIT;REPLICATION;BYPASSRLS;NOSUPERUSER;NOCREATEDB;NOCREATEROLE;NOINHERIT;NOREPLICATION;NOBYPASSRLS
+type PostgresRoleAttribute string
+
+const (
+	SUPERUSER   PostgresRoleAttribute = "SUPERUSER"
+	CREATEDB    PostgresRoleAttribute = "CREATEDB"
+	CREATEROLE  PostgresRoleAttribute = "CREATEROLE"
+	INHERIT     PostgresRoleAttribute = "INHERIT"
+	REPLICATION PostgresRoleAttribute = "REPLICATION"
+	BYPASSRLS   PostgresRoleAttribute = "BYPASSRLS"
+
+	NOSUPERUSER   PostgresRoleAttribute = "NOSUPERUSER"
+	NOCREATEDB    PostgresRoleAttribute = "NOCREATEDB"
+	NOCREATEROLE  PostgresRoleAttribute = "NOCREATEROLE"
+	NOINHERIT     PostgresRoleAttribute = "NOINHERIT"
+	NOREPLICATION PostgresRoleAttribute = "NOREPLICATION"
+	NOBYPASSRLS   PostgresRoleAttribute = "NOBYPASSRLS"
+)
+
+type PostgresRoleAttributes []PostgresRoleAttribute
+
+func (a PostgresRoleAttribute) String() string {
+	return string(a)
+}
+
+func (a PostgresRoleAttributes) Strings() []string {
+	result := make([]string, len(a))
+	for i, attr := range a {
+		result[i] = attr.String()
+	}
+	return result
+}
+
 // PostgresRoleSpec defines the desired state of PostgresRole.
 type PostgresRoleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -32,6 +65,8 @@ type PostgresRoleSpec struct {
 
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="name is immutable"
 	Name string `json:"name"`
+
+	Attributes PostgresRoleAttributes `json:"attributes,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PasswordSecret *corev1.SecretReference `json:"passwordSecret,omitempty"`

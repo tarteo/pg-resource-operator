@@ -164,6 +164,7 @@ func (r *PostgresRoleReconciler) ReconcileResource(ctx context.Context, role *pg
 		err := pg.CreateRole(
 			handler,
 			role.Spec.Name, password,
+			role.Spec.Attributes.Strings(),
 		)
 
 		if err != nil {
@@ -172,9 +173,10 @@ func (r *PostgresRoleReconciler) ReconcileResource(ctx context.Context, role *pg
 		}
 	} else {
 		// Update role password this will set the to null if no password secret is specified, which will remove the password from the role
-		err := pg.AlterRolePassword(
+		err := pg.AlterRole(
 			handler,
 			role.Spec.Name, password,
+			role.Spec.Attributes.Strings(),
 		)
 		if err != nil {
 			log.Error(err, "unable to change role password")
