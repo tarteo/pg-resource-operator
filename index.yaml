@@ -2,8 +2,18 @@ apiVersion: v1
 entries:
   pg-resource-operator:
   - apiVersion: v2
+    appVersion: v2.1.0
+    created: "2026-03-13T16:20:31.457223199Z"
+    description: Kubernetes Operator for PostgreSQL resources
+    digest: bc5b467dcfe47c3696c07a95ba09ef4ddf198cd404403c90da2ed3739668f2b7
+    name: pg-resource-operator
+    type: application
+    urls:
+    - https://tarteo.github.io/pg-resource-operator/pg-resource-operator-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
     appVersion: v2.0.1
-    created: "2026-03-12T15:52:32.84792743Z"
+    created: "2026-03-13T16:20:31.456821288Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: a2bdeabae0cf995ab71ba77f75ce360daec7a407b2499344c7061224c9e08008
     name: pg-resource-operator
@@ -13,7 +23,7 @@ entries:
     version: 2.0.1
   - apiVersion: v2
     appVersion: v2.0.0
-    created: "2026-03-12T15:52:32.84753591Z"
+    created: "2026-03-13T16:20:31.456450966Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 7c4e6296b7c93a6885915a4ce4c1066b88c5f5d0b51a6280b8e066e28ecef6f1
     name: pg-resource-operator
@@ -23,7 +33,7 @@ entries:
     version: 2.0.0
   - apiVersion: v2
     appVersion: v1.5.1
-    created: "2026-03-12T15:52:32.847150281Z"
+    created: "2026-03-13T16:20:31.45605178Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 1f7572291958e23577c93a610cb2463b07fb4643d1cd43811ab3bfc191f6fd5d
     name: pg-resource-operator
@@ -33,7 +43,7 @@ entries:
     version: 1.5.1
   - apiVersion: v2
     appVersion: v1.5.0
-    created: "2026-03-12T15:52:32.84674209Z"
+    created: "2026-03-13T16:20:31.455684634Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 300a697b00b1ed66278f3a7bcbb18b3683dac5b3d50f465db4507bb3d26c1ff5
     name: pg-resource-operator
@@ -43,7 +53,7 @@ entries:
     version: 1.5.0
   - apiVersion: v2
     appVersion: v1.4.0
-    created: "2026-03-12T15:52:32.84632953Z"
+    created: "2026-03-13T16:20:31.455158069Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 0c587ea92ee834812f3fb217008b7465fcb651f80ba39f4daf9c8fbf10690f0c
     name: pg-resource-operator
@@ -53,7 +63,7 @@ entries:
     version: 1.4.1
   - apiVersion: v2
     appVersion: v1.4.0
-    created: "2026-03-12T15:52:32.845893578Z"
+    created: "2026-03-13T16:20:31.454743615Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 5590b48dda636a84b857d92b0f5af30945ae20a3e11a3b3b505466828fec6243
     name: pg-resource-operator
@@ -63,7 +73,7 @@ entries:
     version: 1.4.0
   - apiVersion: v2
     appVersion: v1.3.0
-    created: "2026-03-12T15:52:32.845500224Z"
+    created: "2026-03-13T16:20:31.454340392Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 29d629115c744bcfab910e6a0d39151cc5564dac895e99a4d003d4750f95d518
     name: pg-resource-operator
@@ -73,7 +83,7 @@ entries:
     version: 1.3.0
   - apiVersion: v2
     appVersion: v1.2.0
-    created: "2026-03-12T15:52:32.845085391Z"
+    created: "2026-03-13T16:20:31.453920096Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 42ccb0c51be8650bda4bbd8bba6ec3a4cbe6d32dfd3b288865fe1f1c51187a37
     name: pg-resource-operator
@@ -83,7 +93,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: v1.1.0
-    created: "2026-03-12T15:52:32.844661651Z"
+    created: "2026-03-13T16:20:31.453500071Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: f6b391b391207ed52500ecd4b6308b185d9ddbce50c9d758b86cd9b2c237541a
     name: pg-resource-operator
@@ -93,7 +103,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: v1.0.0
-    created: "2026-03-12T15:52:32.844241687Z"
+    created: "2026-03-13T16:20:31.453063164Z"
     description: Kubernetes Operator for PostgreSQL resources
     digest: 0e2026edc78436cb177167f72d46a41b412349792a15326a721260de02f17ba7
     name: pg-resource-operator
@@ -101,4 +111,4 @@ entries:
     urls:
     - https://tarteo.github.io/pg-resource-operator/pg-resource-operator-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-12T15:52:32.843613917Z"
+generated: "2026-03-13T16:20:31.452486306Z"
