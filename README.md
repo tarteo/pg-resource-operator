@@ -159,3 +159,4 @@ make run
 - Add e2e tests
 - Test more PostgreSQL versions
 - Delete policy for databases
+- Separate database privileges into a separate resource for more flexibility
