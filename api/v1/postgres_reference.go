@@ -75,7 +75,7 @@ func (r *PostgresReference) GetConnectionURI(ctx context.Context, c client.Clien
 		hostString = string(host)
 	}
 	var portString string = strconv.Itoa(int(postgres.Spec.Port))
-	if portString == "" {
+	if portString == "" || portString == "0" {
 		port, ok := secret.Data[postgres.Spec.PortKey]
 		if !ok {
 			return "", fmt.Errorf("port key not found in secret: %s", postgres.Spec.PortKey)

@@ -34,4 +34,13 @@ resources:
   kind: Postgres
   path: github.com/tarteo/pg-resource-operator/api/v1
   version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: onestein.nl
+  group: pg
+  kind: PostgresRoleMembership
+  path: github.com/tarteo/pg-resource-operator/api/v1
+  version: v1
 version: "3"

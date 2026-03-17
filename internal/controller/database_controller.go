@@ -18,9 +18,7 @@ package controller
 
 import (
 	"context"
-	"fmt"
 
-	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -174,7 +172,7 @@ func (r *PostgresDatabaseReconciler) ReconcileResource(ctx context.Context, data
 
 	// Grant / revoke privileges
 	for _, privilege := range database.Spec.Privileges {
-		role, err := r.resolvePrivilegeRole(ctx, database, privilege)
+		role, err := privilege.Role.GetName(ctx, r.Client, database.Namespace)
 		if err != nil {
 			return err
 		}
@@ -211,28 +209,6 @@ func (r *PostgresDatabaseReconciler) ReconcileResource(ctx context.Context, data
 	}
 
 	return nil
-}
-
-func (r *PostgresDatabaseReconciler) resolvePrivilegeRole(ctx context.Context, database *pgv1.PostgresDatabase, privilege pgv1.DatabasePrivilege) (string, error) {
-	if privilege.Role.Name != "" {
-		return privilege.Role.Name, nil
-	}
-
-	var secret corev1.Secret
-	if err := r.Get(ctx, types.NamespacedName{Namespace: database.Namespace, Name: privilege.Role.SecretKeyRef.Name}, &secret); err != nil {
-		return "", err
-	}
-
-	role, found := secret.Data[privilege.Role.SecretKeyRef.Key]
-	if !found {
-		return "", fmt.Errorf("unable to find key %q in secret %q", privilege.Role.SecretKeyRef.Key, privilege.Role.SecretKeyRef.Name)
-	}
-
-	if len(role) == 0 {
-		return "", fmt.Errorf("role value in secret %q key %q is empty", privilege.Role.SecretKeyRef.Name, privilege.Role.SecretKeyRef.Key)
-	}
-
-	return string(role), nil
 }
 
 // SetupWithManager sets up the controller with the Manager.

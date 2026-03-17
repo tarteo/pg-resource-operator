@@ -3,4 +3,5 @@ resources:
 - pg_v1_database.yaml
 - pg_v1_role.yaml
 - pg_v1_postgres.yaml
+- pg_v1_postgresrolemembership.yaml
 # +kubebuilder:scaffold:manifestskustomizesamples

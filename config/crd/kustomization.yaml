@@ -5,6 +5,7 @@ resources:
 - bases/pg.onestein.nl_postgresdatabases.yaml
 - bases/pg.onestein.nl_postgresroles.yaml
 - bases/pg.onestein.nl_postgres.yaml
+- bases/pg.onestein.nl_postgresrolememberships.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
 patches:

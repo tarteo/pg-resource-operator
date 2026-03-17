@@ -1,0 +1,15 @@
+apiVersion: pg.onestein.nl/v1
+kind: PostgresRoleMembership
+metadata:
+  labels:
+    app.kubernetes.io/name: pg-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: postgresrolemembership-sample
+spec:
+  postgresRef:
+    name: postgres-sample
+  role:
+    name: role-sample
+  member:
+    name: postgres
+  granted: true

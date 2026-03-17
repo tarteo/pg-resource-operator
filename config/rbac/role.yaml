@@ -24,6 +24,7 @@ rules:
   - pg.onestein.nl
   resources:
   - postgresdatabases
+  - postgresrolememberships
   - postgresroles
   verbs:
   - create
@@ -37,6 +38,7 @@ rules:
   - pg.onestein.nl
   resources:
   - postgresdatabases/finalizers
+  - postgresrolememberships/finalizers
   - postgresroles/finalizers
   verbs:
   - update
@@ -44,6 +46,7 @@ rules:
   - pg.onestein.nl
   resources:
   - postgresdatabases/status
+  - postgresrolememberships/status
   - postgresroles/status
   verbs:
   - get
