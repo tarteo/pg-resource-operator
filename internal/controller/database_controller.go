@@ -102,9 +102,10 @@ func (r *PostgresDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Req
 
 	// Remove finalizer if deletion timestamp is set
 	if !database.ObjectMeta.DeletionTimestamp.IsZero() && controllerutil.ContainsFinalizer(&database, constants.Finalizer) {
+		databaseOriginal := database.DeepCopy()
 		controllerutil.RemoveFinalizer(&database, constants.Finalizer)
-		if err := r.Update(ctx, &database); err != nil {
-			log.Error(err, "unable to update database with finalizer")
+		if err := r.Patch(ctx, &database, client.MergeFrom(databaseOriginal)); err != nil {
+			log.Error(err, "unable to remove finalizer from database")
 			return ctrl.Result{}, err
 		}
 

@@ -101,9 +101,10 @@ func (r *PostgresRoleMembershipReconciler) Reconcile(ctx context.Context, req ct
 
 	// Remove finalizer if deletion timestamp is set
 	if !rolemembership.ObjectMeta.DeletionTimestamp.IsZero() && controllerutil.ContainsFinalizer(&rolemembership, constants.Finalizer) {
+		rolemembershipOriginal := rolemembership.DeepCopy()
 		controllerutil.RemoveFinalizer(&rolemembership, constants.Finalizer)
-		if err := r.Update(ctx, &rolemembership); err != nil {
-			log.Error(err, "unable to update rolemembership with finalizer")
+		if err := r.Patch(ctx, &rolemembership, client.MergeFrom(rolemembershipOriginal)); err != nil {
+			log.Error(err, "unable to remove finalizer from rolemembership")
 			return ctrl.Result{}, err
 		}
 
